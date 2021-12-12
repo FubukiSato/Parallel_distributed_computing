@@ -5,7 +5,6 @@ import java.nio.file.*;
 
 class brute_force{
 
-    public static int count = 0;
     public static String inputfile="ex02_pride.enc";
     public static String outputfile="output_pride.txt";
 
@@ -48,10 +47,10 @@ class brute_force{
             s4.start();
         }
         private static final String checker = "correct header";
-    }
+}
+
     class S1 extends Thread{
         public void run(){
-            
             for(int i=0;i<25000;i++){
                 //I can't find a good solution.
                 brute_force.Decrypt(brute_force.inputfile,brute_force.outputfile,String.format("%02d",i));
