@@ -1,12 +1,14 @@
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.CountDownLatch;
 
 class ex03_money
 {
+    static int flag = 0;
     static int Account = 0;
-    static Semaphore S = new Semaphore(0);
-    static Semaphore M = new Semaphore(1);
+    static CountDownLatch latch = new CountDownLatch(2);
+    //static Semaphore S = new Semaphore(0);
+    //static Semaphore M = new Semaphore(1);
 
-    static class Spouse implements Runnable
+    /*static class Spouse implements Runnable
     {
         private int Sum;
         public Spouse(int sum) { Sum = sum; }
@@ -24,20 +26,46 @@ class ex03_money
             
             S.release();
         }
+    }*/
+
+    public class Global {
+        public static final Object lock = new Object();
+    }
+
+    static class AccountType implements Runnable
+    {
+        private int Sum;
+        public AccountType(int sum) { this.Sum = sum;}
+                        
+        public int GetValue(){
+            return Account;
+        }
+
+        public void AddOneUnit(){
+            synchronized (Global.lock){ 
+            for(int i=0;i<this.Sum;i++){
+                Account++;
+            }
+        }
+        }
+
+        public void run(){
+            this.AddOneUnit();
+            latch.countDown();
+        }
     }
                     
     static public void main(String args[]) 
     {
-        Spouse husband = new Spouse(500000);
-        Spouse wife = new Spouse(500000);
+        AccountType husband = new AccountType(500000);
+        AccountType wife = new AccountType(500000);
         
         new Thread(husband).start();
         new Thread(wife).start();
         
         try
         {
-            S.acquire();
-            S.acquire();
+            latch.await();
         }
         catch(Exception e){}
      
