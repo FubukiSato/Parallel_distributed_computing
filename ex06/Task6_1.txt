@@ -1,0 +1,2 @@
+Bcast() is more efficient. Bcast() is more efficient, because it can send a message to multiple processes in one operation.
+Also, when exchanging large amounts of data, sending multiple times with send() is a very burdensome process.

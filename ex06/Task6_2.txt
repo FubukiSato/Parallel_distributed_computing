@@ -1,0 +1,14 @@
+Q. How fast is message passing in a multicore (shared-memory) environment?
+
+A. No idea.
+
+
+
+Q. How fault-tolerant MPI is? (What happens if some message is not delivered?)
+
+A. Do not proceed to the next operation until the transmission and reception are   completed successfully.
+
+
+Q. Which network protocol (TCP / UDP / etc.) MPI uses?
+
+A. Eager protocol & Rendezvous protocol
